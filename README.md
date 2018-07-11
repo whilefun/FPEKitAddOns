@@ -13,8 +13,14 @@ All add-ons that rely on 3rd party packages (e.g. Cinemachine) should be conside
 # Elevator
 A sample project that uses elevator floors to switch scenes.
 
+![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/Elevator/Elevator.gif)
+
 # FPEKitCinemachine
 A basic integration of a Cinemachine-driven cutscene camera with First Person Exploration Kit v2.0.2
 
+![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/FPEKitCinemachine/CinemachineCut.gif)
+
 # Teleport
 A simple single scene teleporter. Works like default Doorways, but does not load a new scene or save/load data. Good for cinematic hard cuts, etc.
+
+![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/Teleport/Teleport.gif)
