@@ -6,7 +6,7 @@ Each folder contains a file called Requirements.txt. This file lists the Unity v
 
 
 # IMPORTANT NOTE
-All add-ons that rely on 3rd party packages (e.g. Cinemachine) should be considered in permanent Beta. Support will be provided where possible, external 3rd party updates may change how the add-on behaves.
+All add-ons that rely on 3rd party packages (e.g. Cinemachine) should be considered in permanent Beta. Support will be provided where possible, but external 3rd party updates may change how the add-on behaves.
 
 
 
