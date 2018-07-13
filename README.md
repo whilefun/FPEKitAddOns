@@ -24,3 +24,8 @@ A basic integration of a Cinemachine-driven cutscene camera with First Person Ex
 A simple single scene teleporter. Works like default Doorways, but does not load a new scene or save/load data. Good for cinematic hard cuts, etc.
 
 ![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/Teleport/Teleport.gif)
+
+# Start Docked
+A new player start type that allows the player to start the game in a dock (e.g. waking up sat in a chair)
+
+![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/StartDocked/StartDocked.jpg)

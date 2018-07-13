@@ -1,0 +1,146 @@
+
+-------------------------------------
+1) Modify FPEInteractionManagerScript:
+-------------------------------------
+
+Added new function DockPlayerOnStart (I placed it between DockPlayer() and UnDockPlayer(), around line 2571):
+
+/// <summary>
+/// Docks the player for special start docks
+/// </summary>
+/// <param name="dock"></param>
+public void DockPlayerOnStart(FPEInteractableDockScript dock)
+{
+
+	currentDock = dock.gameObject;
+	dock.dock();
+	unDockHint.setHint(dock.UnDockHintText);
+	thePlayer.GetComponent<FPEFirstPersonController>().dockThePlayer(dock.DockTransform, dock.DockedViewLimits, dock.FocusTransform.position, false);
+	currentDockActionType = FPEFirstPersonController.ePlayerDockingState.DOCKING;
+	dockingInProgress = true;
+	hideAllUI();
+
+}
+
+------------------------------
+2) Modified FPESaveLoadManager:
+------------------------------
+
+Replace movePlayerToSuitableEntranceOrStartPosition() in full with this version of the function:
+
+
+/// <summary>
+/// Moves the player to the currently loaded scene's most appropriate starting position. If a 
+/// new game (previous scene was not "real level" - less than firstLevelSceneBuildIndex), a 
+/// FPEPlayerStartLocation is searched for. If not, a Doorway Entrance is searched for. If 
+/// neither can be found, an error is printed and the player is placed at the world origin.
+/// </summary>
+private void movePlayerToSuitableEntranceOrStartPosition()
+{
+
+	GameObject thePlayer = FPEPlayer.Instance.gameObject;
+
+	// If previous scene was LESS than our first known real level, we assume this is a new game
+	if (previousSceneIndex < firstLevelSceneBuildIndex)
+	{
+
+		FPEPlayerStartLocation startLocation = GameObject.FindObjectOfType<FPEPlayerStartLocation>();
+
+		// Yield to start location if there is one present
+		if (startLocation != null)
+		{
+
+			Debug.Log("Player starting in normal start position");
+			thePlayer.transform.position = startLocation.gameObject.transform.position;
+			thePlayer.transform.rotation = startLocation.gameObject.transform.rotation;
+
+		}
+		else
+		{
+
+			// Find a starting dock location
+			FPEPlayerStartDocked dockStart = GameObject.FindObjectOfType<FPEPlayerStartDocked>();
+
+			if (dockStart != null)
+			{
+				
+				thePlayer.transform.position = dockStart.gameObject.transform.position;
+				thePlayer.transform.rotation = dockStart.gameObject.transform.rotation;
+
+				if (dockStart.StartingDock != null)
+				{
+					Debug.Log("Player starting in docked start position (docked on '" + dockStart.StartingDock.gameObject.name + "')");
+					FPEInteractionManagerScript.Instance.DockPlayerOnStart(dockStart.StartingDock);
+				}
+				else
+				{
+					Debug.LogError("Found FPEPlayerStartDocked object '"+ dockStart.gameObject.name + "' but it doesn't have a Dock assigned!");
+				}
+
+			}
+			else
+			{
+
+				Debug.LogWarning("FPESaveLoadManager:: No FPEPlayerStartLocation was found in scene. Placing player at origin instead.");
+				thePlayer.transform.position = Vector3.zero;
+				thePlayer.transform.rotation = Quaternion.identity;
+
+			}
+
+		}
+
+	}
+	// Otherwise, yield to the appropriate doorway.
+	else
+	{
+
+		FPEDoorway[] doorways = GameObject.FindObjectsOfType<FPEDoorway>();
+		bool foundDoorway = false;
+		
+		for (int d = 0; d < doorways.Length; d++)
+		{
+
+			if (doorways[d].ConnectedSceneIndex == previousSceneIndex)
+			{
+
+				thePlayer.transform.position = doorways[d].DoorwayEntranceTransform.position;
+				thePlayer.transform.rotation = doorways[d].DoorwayEntranceTransform.rotation;
+				foundDoorway = true;
+				break;
+
+			}
+
+		}
+
+		if (foundDoorway == false)
+		{
+
+			Debug.LogWarning("FPESaveLoadManager:: No FPEDoorway was found that matched connected scene '" + previousSceneIndex + "'. Placing player at origin instead.");
+			thePlayer.transform.position = Vector3.zero;
+			thePlayer.transform.rotation = Quaternion.identity;
+
+		}
+
+	}
+
+}
+
+
+-------
+To Test:
+-------
+
+1) In Build Settings, ensure DockStartMainMenu is scene index 0 and DockStart is scene index 1.
+2) Open DockStartMainMenu and play scene. 
+3) Select New Game, and player will start game docked in the chair. From there, you just play as normal. 
+
+To modify the starting dock, open DockStart scene and change the PlayerStartDocked object. As configured, it will start the player in the armchair (blue line drawn from yellow sphere to armchair), and when the player undocks, they will "go back" to the yellow sphere. This simulates where the player will stand/face when they get out of the dock.
+
+----
+Note:
+----
+
+If there is a normal PlayerStart present in the scene, it will supercede the dock start. To test, you can enable the PlayerStart object and try again. The player will be placed there and the dock start will be ignored. Subsequent level doorways will behave as they did before. Namely, once you go through a door, you are placed at the next level's entrance. Similarly, when you load your game, you are loaded into the last known location per previous package behaviour.
+
+
+
