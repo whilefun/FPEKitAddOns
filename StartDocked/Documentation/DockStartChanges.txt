@@ -14,11 +14,9 @@ public void DockPlayerOnStart(FPEInteractableDockScript dock)
 
 	currentDock = dock.gameObject;
 	dock.dock();
-	unDockHint.setHint(dock.UnDockHintText);
 	thePlayer.GetComponent<FPEFirstPersonController>().dockThePlayer(dock.DockTransform, dock.DockedViewLimits, dock.FocusTransform.position, false);
 	currentDockActionType = FPEFirstPersonController.ePlayerDockingState.DOCKING;
 	dockingInProgress = true;
-	hideAllUI();
 
 }
 
