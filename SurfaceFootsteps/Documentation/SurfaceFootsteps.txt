@@ -1,0 +1,84 @@
+-------------------------------------
+1) Modify FPEFirstPersonController.cs
+-------------------------------------
+
+Around line 70, add these four variables:
+
+// Custom walking surface stuff
+private FPESoundBank currentFootstepSounds;
+private float maxFootStepCheckDistance = 1.0f;
+private int lastWalkedSurfaceInstanceID = 0;
+[SerializeField, Tooltip("The layer(s) where the custom footstep volumes live. E.g. FPEFootsteps")]
+private LayerMask footstepsLayers;
+
+
+Inside the PlayFootStepAudio() function, change:
+
+footstepSounds.Play(m_AudioSource);
+
+to be:
+
+currentFootstepSounds.Play(m_AudioSource);
+
+
+At the end of the Update() function, add this new raycast check for WalkableSurface:
+
+
+// Do custom walking surface check //
+RaycastHit footStepsHit;
+
+if (Physics.Raycast(transform.position, -transform.up, out footStepsHit, maxFootStepCheckDistance, footstepsLayers, QueryTriggerInteraction.Collide))
+{
+	if(footStepsHit.transform != null && footStepsHit.transform.gameObject.GetComponent<WalkableSurface>())
+	{
+
+		// Only swap surfaces if we are walking on one we were not previously walking on
+		if (lastWalkedSurfaceInstanceID != footStepsHit.transform.gameObject.GetInstanceID() || lastWalkedSurfaceInstanceID == 0)
+		{
+
+			lastWalkedSurfaceInstanceID = footStepsHit.transform.gameObject.GetInstanceID();
+
+			currentFootstepSounds = footStepsHit.transform.gameObject.GetComponent<WalkableSurface>().getFootSteps();
+
+			if (currentFootstepSounds == null)
+			{
+				Debug.LogWarning("WalkableSurface '" + footStepsHit.transform.name + "' has no footsteps assigned, reverting to defaults.");
+				currentFootstepSounds = footstepSounds;
+			}
+
+		}
+
+	}
+	else
+	{
+		currentFootstepSounds = footstepSounds;
+	}
+
+}
+else
+{
+
+	// fall through is just the assigned default footsteps:
+	currentFootstepSounds = footstepSounds;
+
+}
+
+
+-----------------------------------------
+2) Using WalkableSurface in your scene(s):
+-----------------------------------------
+
+1) Create a new Layer in unity called FPEFootSteps
+2) In the FPEPlayerController prefab, assign FPEFootSteps layer to be the only layer assigned in the "Footsteps Layers" value in the Inspector.
+3) Add a new cube to your scene, set its collider to be a trigger
+4) Set the new cube's layer to be the new FPEFootsteps Layer
+5) Add the included WalkableSurface script
+6) Create/assign a new FPESimpleSoundBank for the associated foot step sounds for this walkable surface (I recommend just duplicating then modifying the default PlayerFootsteps that came with the kit), and assign in the inspector. See SurfaceFootsteps/Audio/FootstepsA.asset and FootstepsB.asset for examples.
+7) Run your scene, and walk on the surfaces. They should make the player footsteps sound like those in the sound bank inspector assignments for each WalkableSurface.
+
+I recommend using a good default sound bank that covers most of your world's surfaces, and using custom WalkableSurfaces sparingly around your scene. The included code does this the most efficient
+way possible, but it still adds a raycast every frame and each surface needs to have a collider. Making the WalkableSurface objects 'Static' in the inspector will also help, as will disabling all 
+Physics interactions in Edit -> Project Settings -> Physics. See included screenshot called "physicsLayerInteractions.jpg".
+
+
+

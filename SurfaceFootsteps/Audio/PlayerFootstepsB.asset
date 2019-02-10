@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8603ff8ec41bafa4884ab55973c99b81, type: 3}
+  m_Name: PlayerFootstepsB
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: bd9c78160e4c22240b6c9b344d4d3c8d, type: 3}
+  - {fileID: 8300000, guid: 6548ada2730f293459155e3efed65958, type: 3}
+  - {fileID: 8300000, guid: a64a753993f3cd745aa78a8ee217881a, type: 3}
+  - {fileID: 8300000, guid: e73bfda39984f2549a672adc30938b2c, type: 3}
+  volume:
+    minValue: 0.4148936
+    maxValue: 0.61489356
+  pitch:
+    minValue: 1.8500001
+    maxValue: 2

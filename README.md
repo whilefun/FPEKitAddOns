@@ -29,3 +29,6 @@ A simple single scene teleporter. Works like default Doorways, but does not load
 A new player start type that allows the player to start the game in a dock (e.g. waking up sat in a chair)
 
 ![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/StartDocked/StartDocked.jpg)
+
+# Surface Footsteps
+A simple way to add various surfaces to your game that make the player's footsteps sound different (e.g. Walking on hardwood floor vs. carpet)
