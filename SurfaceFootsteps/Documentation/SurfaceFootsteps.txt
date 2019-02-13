@@ -27,7 +27,7 @@ At the end of the Update() function, add this new raycast check for WalkableSurf
 // Do custom walking surface check //
 RaycastHit footStepsHit;
 
-if (Physics.Raycast(transform.position, -transform.up, out footStepsHit, maxFootStepCheckDistance, footstepsLayers, QueryTriggerInteraction.Collide))
+if (Physics.Raycast((transform.position + transform.up * 0.5f), -transform.up, out footStepsHit, maxFootStepCheckDistance, footstepsLayers, QueryTriggerInteraction.Collide))
 {
 	if(footStepsHit.transform != null && footStepsHit.transform.gameObject.GetComponent<WalkableSurface>())
 	{
