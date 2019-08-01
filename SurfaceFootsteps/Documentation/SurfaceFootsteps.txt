@@ -51,7 +51,10 @@ if (Physics.Raycast((transform.position + transform.up * 0.5f), -transform.up, o
 	}
 	else
 	{
+	
 		currentFootstepSounds = footstepSounds;
+		lastWalkedSurfaceInstanceID = 0;
+		
 	}
 
 }
@@ -60,6 +63,7 @@ else
 
 	// fall through is just the assigned default footsteps:
 	currentFootstepSounds = footstepSounds;
+	lastWalkedSurfaceInstanceID = 0;
 
 }
 
