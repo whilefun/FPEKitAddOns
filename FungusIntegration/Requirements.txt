@@ -1,0 +1,3 @@
+Unity 2018.3.1f1
+Fungus v3.10.0
+FPEKit v2.2.3
