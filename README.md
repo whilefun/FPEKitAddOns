@@ -32,3 +32,10 @@ A new player start type that allows the player to start the game in a dock (e.g.
 
 # Surface Footsteps
 A simple way to add various surfaces to your game that make the player's footsteps sound different (e.g. Walking on hardwood floor vs. carpet)
+
+# Fungus Integration
+Integration with the Fungus dialog system so you can add your favourite Fungus dialog and features to your game!
+![Screenshot](https://github.com/whilefun/FPEKitAddOns/blob/master/FungusIntegration/FPEKitWithFungus.gif)
+
+# Virtual Snapshot Integration
+Basic integration with another While Fun Games asset: [Virtual Snapshot](https://assetstore.unity.com/packages/templates/systems/virtual-snapshot-57968)
