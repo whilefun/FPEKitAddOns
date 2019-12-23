@@ -6,7 +6,7 @@
 
 3) Add "VirtualSnapshot" tag to Project A
 
-4) Copy Virtual Snapshot folder into Assets folder of Project A
+4) Copy VirtualSnapshot folder from Project B into Assets folder of Project A
 
 5) Update VirtualSnapshotDisposable, VirtualSnapshotDSLR, and VirtualSnapshotFilmSLR prefabs to ensure they are still tagged with VirtualSnapshot tag
 
